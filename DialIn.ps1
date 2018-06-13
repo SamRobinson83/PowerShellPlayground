@@ -3,7 +3,7 @@
  # @Author: Sam Robinson
  # @Contact: undefined
 # @Last Modified By: Sam Robinson
-# @Last Modified Time: Jun 13, 2018 11:26 AM
+# @Last Modified Time: Jun 13, 2018 12:58 PM
  # @Description: GUI to quickly modify the "Dial In" Attribute in Active Directory 
 #
 Import-Module ActiveDirectory
@@ -16,14 +16,21 @@ $Username
 
 ##function
 function allowdialin {
-
+    $Username = $UserToChangeBox.Text
     
+    set-aduser $Username -replace @{msnpallowdialin=$true}
+
+    $wshell = New-Object -ComObject WScript.Shell
+    $wshell.Popup("$Username Dial In Enabled", 0, "Done", 4096)
 }
 
 function disabledialin {
     $Username = $UserToChangeBox.Text
 
-    
+    set-aduser $Username -replace @{msnpallowdialin=$false}
+
+    $wshell = New-Object -ComObject WScript.Shell
+    $wshell.Popup("$Username Dial In Disabled", 0, "Done", 4096)
     
 }
 
@@ -46,32 +53,28 @@ $objForm.Add_KeyDown({if ($_.KeyCode -eq "Enter")
 $objForm.Add_KeyDown({if ($_.KeyCode -eq "Escape") 
     {$objForm.Close()}})
 
-$ProgramLabel = New-Object System.Windows.Forms.Label
-$ProgramLabel.Location = New-Object System.Drawing.Size(10,10)
-$ProgramLabel.Size = New-Object System.Drawing.Size(300,25)
-$ProgramLabel.Text = "Dial In Status Change"
-$objForm.Controls.Add($ProgramLabel)
+$UsernameLabel = New-Object System.Windows.Forms.Label
+$UsernameLabel.Location = New-Object System.Drawing.Size(10,10)
+$UsernameLabel.Size = New-Object System.Drawing.Size(300,25)
+$UsernameLabel.Text = "Username to Change:"
+$objForm.Controls.Add($UsernameLabel)
+
 $UserToChangeBox = New-Object System.Windows.Forms.TextBox
-$UserToChangeBox.Location = New-Object System.Drawing.Size(10,80)
-$UserToChangeBox.Size = New-Object System.Drawing.Size(100,100)
+$UserToChangeBox.Location = New-Object System.Drawing.Size(10,35)
+$UserToChangeBox.Size = New-Object System.Drawing.Size(100,50)
 $objForm.Controls.Add($UserToChangeBox)
 
-$UserToChangeLabel = New-Object System.Windows.Forms.Label
-$UserToChangeLabel.Location = New-Object System.Drawing.Size(10,63)
-$UserToChangeLabel.Size = New-Object System.Drawing.Size(100,17)
-$UserToChangeLabel.Text = "User To Change:"
-$objForm.Controls.Add($UserToChangeLabel)
 
-$EjectButton = New-Object System.Windows.Forms.Button
-$EjectButton.Location = New-Object System.Drawing.Size(10,160)
-$EjectButton.Size = New-Object System.Drawing.Size(150,23)
-$EjectButton.Text = "Allow Dial In"
-$EjectButton.Add_Click({ allowdialin })
-$objForm.Controls.Add($EjectButton)
+$AllowDialInButton = New-Object System.Windows.Forms.Button
+$AllowDialInButton.Location = New-Object System.Drawing.Size(10,75)
+$AllowDialInButton.Size = New-Object System.Drawing.Size(150,100)
+$AllowDialInButton.Text = "Allow Dial In"
+$AllowDialInButton.Add_Click({ allowdialin })
+$objForm.Controls.Add($AllowDialInButton)
 
 $DisableDialInButton = New-Object System.Windows.Forms.Button
-$DisableDialInButton.Location = New-Object System.Drawing.Size(200,160)
-$DisableDialInButton.Size = New-Object System.Drawing.Size(150,23)
+$DisableDialInButton.Location = New-Object System.Drawing.Size(200,75)
+$DisableDialInButton.Size = New-Object System.Drawing.Size(150,100)
 $DisableDialInButton.Text = "Disable Dial In"
 $DisableDialInButton.Add_Click({ disabledialin })
 $objForm.Controls.Add($DisableDialInButton)
