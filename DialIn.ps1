@@ -3,7 +3,7 @@
  # @Author: Sam Robinson
  # @Contact: undefined
 # @Last Modified By: Sam Robinson
-# @Last Modified Time: Jun 13, 2018 10:38 AM
+# @Last Modified Time: Jun 13, 2018 11:26 AM
  # @Description: GUI to quickly modify the "Dial In" Attribute in Active Directory 
 #
 Import-Module ActiveDirectory
@@ -20,6 +20,13 @@ function allowdialin {
     
 }
 
+function disabledialin {
+    $Username = $UserToChangeBox.Text
+
+    
+    
+}
+
 
 
 
@@ -30,7 +37,7 @@ function allowdialin {
 
 $objForm = New-Object System.Windows.Forms.Form
 $objForm.Text = "Change Dial In Status"
-$objForm.Size = New-Object System.Drawing.Size(300,250) 
+$objForm.Size = New-Object System.Drawing.Size(400,250) 
 $objForm.StartPosition = "CenterScreen"
 
 $objForm.KeyPreview = $True
@@ -63,11 +70,11 @@ $EjectButton.Add_Click({ allowdialin })
 $objForm.Controls.Add($EjectButton)
 
 $DisableDialInButton = New-Object System.Windows.Forms.Button
-$EjectButton.Location = New-Object System.Drawing.Size(10,160)
-$EjectButton.Size = New-Object System.Drawing.Size(150,23)
-$EjectButton.Text = "Allow Dial In"
-$EjectButton.Add_Click({ allowdialin })
-$objForm.Controls.Add($EjectButton)
+$DisableDialInButton.Location = New-Object System.Drawing.Size(200,160)
+$DisableDialInButton.Size = New-Object System.Drawing.Size(150,23)
+$DisableDialInButton.Text = "Disable Dial In"
+$DisableDialInButton.Add_Click({ disabledialin })
+$objForm.Controls.Add($DisableDialInButton)
 
 
 
