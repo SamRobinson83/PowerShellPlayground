@@ -1,0 +1,1 @@
+Invoke-Command -ComputerName "insert server name" -ScriptBlock {  Start-ADSyncSyncCycle -PolicyType Delta }
